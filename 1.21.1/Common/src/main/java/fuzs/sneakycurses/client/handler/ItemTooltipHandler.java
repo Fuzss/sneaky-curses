@@ -59,7 +59,8 @@ public class ItemTooltipHandler {
         if (!isAffected(player, itemStack)) return;
         ListIterator<Component> iterator = lines.listIterator();
         while (iterator.hasNext()) {
-            if (iterator.next().getContents() instanceof TranslatableContents contents &&
+            Component componentLine = iterator.next();
+            if (componentLine.getContents() instanceof TranslatableContents contents &&
                     contents.getKey().startsWith("enchantment.")) {
                 String[] enchantmentKey = contents.getKey().split("\\.");
                 Holder<Enchantment> enchantment = null;
@@ -80,6 +81,14 @@ public class ItemTooltipHandler {
                         iterator.remove();
                     }
                 }
+            }
+            // fallback mode for non-translatable curses
+            else if (SneakyCurses.CONFIG.get(ServerConfig.class).fallbackMode &&
+                        componentLine.getString().startsWith("Curse of"))
+            {
+                initSeed(currentScreenSeed + componentLine.getString().substring(9).hashCode());
+                Component component = getLoreForWidth(Minecraft.getInstance().font);
+                iterator.set(Component.empty().append(component).withStyle(ChatFormatting.RED));
             }
         }
     }
