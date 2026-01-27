@@ -6,6 +6,8 @@ import fuzs.puzzleslib.api.config.v3.ConfigCore;
 public class ServerConfig implements ConfigCore {
     @Config(name = "obfuscate_curses_on_tooltips", description = "Obfuscate curse enchantments with enchantment runes on item tooltips.")
     public boolean obfuscateCurses = true;
+    @Config(name = "fallback_mode", description = "Allow better support for mods that do not register curses with translatable text (Experimental!)")
+    public boolean fallbackMode = false;
     @Config(name = "tint_enchantment_glint_when_cursed", description = "Tint the enchantment glint in a red shade when the item is enchanted with curses.")
     public boolean cursedItemGlint = true;
     @Config(description = "Obfuscate curses on enchanted books.")
