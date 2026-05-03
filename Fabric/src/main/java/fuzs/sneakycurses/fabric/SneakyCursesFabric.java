@@ -1,7 +1,7 @@
 package fuzs.sneakycurses.fabric;
 
 import fuzs.puzzleslib.common.api.core.v1.ModConstructor;
-import fuzs.sneakycurses.SneakyCurses;
+import fuzs.sneakycurses.common.SneakyCurses;
 import net.fabricmc.api.ModInitializer;
 
 public class SneakyCursesFabric implements ModInitializer {

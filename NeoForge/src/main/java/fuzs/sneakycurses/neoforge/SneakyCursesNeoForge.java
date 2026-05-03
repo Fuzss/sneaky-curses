@@ -2,8 +2,8 @@ package fuzs.sneakycurses.neoforge;
 
 import fuzs.puzzleslib.common.api.core.v1.ModConstructor;
 import fuzs.puzzleslib.neoforge.api.data.v2.core.DataProviderHelper;
-import fuzs.sneakycurses.SneakyCurses;
-import fuzs.sneakycurses.data.tags.ModItemTagsProvider;
+import fuzs.sneakycurses.common.SneakyCurses;
+import fuzs.sneakycurses.common.data.tags.ModItemTagsProvider;
 import net.neoforged.fml.common.Mod;
 
 @Mod(SneakyCurses.MOD_ID)
