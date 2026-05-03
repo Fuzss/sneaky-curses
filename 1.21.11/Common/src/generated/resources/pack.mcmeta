@@ -1,0 +1,10 @@
+{
+  "pack": {
+    "description": "Resources for Sneaky Curses",
+    "max_format": 94,
+    "min_format": [
+      94,
+      1
+    ]
+  }
+}
