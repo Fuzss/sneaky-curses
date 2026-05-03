@@ -1,14 +1,14 @@
 package fuzs.sneakycurses.client;
 
-import fuzs.puzzleslib.api.client.core.v1.ClientModConstructor;
-import fuzs.puzzleslib.api.client.core.v1.context.RenderBuffersContext;
-import fuzs.puzzleslib.api.client.core.v1.context.RenderPipelinesContext;
-import fuzs.puzzleslib.api.client.event.v1.entity.ClientEntityLevelEvents;
-import fuzs.puzzleslib.api.client.event.v1.gui.ItemTooltipCallback;
-import fuzs.puzzleslib.api.client.event.v1.gui.ScreenEvents;
-import fuzs.puzzleslib.api.client.event.v1.renderer.ExtractRenderStateCallback;
-import fuzs.puzzleslib.api.core.v1.context.PackRepositorySourcesContext;
-import fuzs.puzzleslib.api.resources.v1.PackResourcesHelper;
+import fuzs.puzzleslib.common.api.client.core.v1.ClientModConstructor;
+import fuzs.puzzleslib.common.api.client.core.v1.context.RenderBuffersContext;
+import fuzs.puzzleslib.common.api.client.core.v1.context.RenderPipelinesContext;
+import fuzs.puzzleslib.common.api.client.event.v1.entity.ClientEntityLevelEvents;
+import fuzs.puzzleslib.common.api.client.event.v1.gui.ItemTooltipCallback;
+import fuzs.puzzleslib.common.api.client.event.v1.gui.ScreenEvents;
+import fuzs.puzzleslib.common.api.client.event.v1.renderer.ExtractEntityRenderStateCallback;
+import fuzs.puzzleslib.common.api.core.v1.context.PackRepositorySourcesContext;
+import fuzs.puzzleslib.common.api.resources.v1.PackResourcesHelper;
 import fuzs.sneakycurses.SneakyCurses;
 import fuzs.sneakycurses.client.handler.ItemTooltipHandler;
 import fuzs.sneakycurses.client.handler.TridentGlintHandler;
@@ -27,7 +27,7 @@ public class SneakyCursesClient implements ClientModConstructor {
         ItemTooltipCallback.EVENT.register(ItemTooltipHandler::onItemTooltip);
         ScreenEvents.afterInit(Screen.class).register(ItemTooltipHandler::onAfterInit);
         ClientEntityLevelEvents.LOAD.register(TridentGlintHandler::onEntityLoad);
-        ExtractRenderStateCallback.EVENT.register(TridentGlintHandler::onExtractRenderState);
+        ExtractEntityRenderStateCallback.EVENT.register(TridentGlintHandler::onExtractEntityRenderState);
     }
 
     @Override

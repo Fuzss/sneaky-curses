@@ -2,12 +2,12 @@ package fuzs.sneakycurses.client.packs;
 
 import com.google.common.collect.ImmutableMap;
 import com.mojang.blaze3d.platform.NativeImage;
-import fuzs.puzzleslib.api.client.packs.v1.NativeImageHelper;
-import fuzs.puzzleslib.api.resources.v1.AbstractModPackResources;
-import fuzs.puzzleslib.api.util.v1.HSV;
+import fuzs.puzzleslib.common.api.client.packs.v1.NativeImageHelper;
+import fuzs.puzzleslib.common.api.resources.v1.AbstractModPackResources;
+import fuzs.puzzleslib.common.api.util.v1.HSV;
 import fuzs.sneakycurses.SneakyCurses;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.feature.ItemFeatureRenderer;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.IoSupplier;
@@ -24,16 +24,16 @@ import java.util.Optional;
 import java.util.function.BiConsumer;
 
 public class TransformingPackResources extends AbstractModPackResources {
-    public static final Identifier ENCHANTED_GLINT_ARMOR = SneakyCurses.id(ItemRenderer.ENCHANTED_GLINT_ARMOR.getPath());
-    public static final Identifier ENCHANTED_GLINT_ITEM = SneakyCurses.id(ItemRenderer.ENCHANTED_GLINT_ITEM.getPath());
+    public static final Identifier ENCHANTED_GLINT_ARMOR = SneakyCurses.id(ItemFeatureRenderer.ENCHANTED_GLINT_ARMOR.getPath());
+    public static final Identifier ENCHANTED_GLINT_ITEM = SneakyCurses.id(ItemFeatureRenderer.ENCHANTED_GLINT_ITEM.getPath());
     private static final Map<Identifier, Identifier> RESOURCE_LOCATIONS;
 
     private final ResourceManager resourceManager = Minecraft.getInstance().getResourceManager();
 
     static {
         ImmutableMap.Builder<Identifier, Identifier> builder = ImmutableMap.builder();
-        registerTextureMapping(builder::put, ItemRenderer.ENCHANTED_GLINT_ARMOR, ENCHANTED_GLINT_ARMOR);
-        registerTextureMapping(builder::put, ItemRenderer.ENCHANTED_GLINT_ITEM, ENCHANTED_GLINT_ITEM);
+        registerTextureMapping(builder::put, ItemFeatureRenderer.ENCHANTED_GLINT_ARMOR, ENCHANTED_GLINT_ARMOR);
+        registerTextureMapping(builder::put, ItemFeatureRenderer.ENCHANTED_GLINT_ITEM, ENCHANTED_GLINT_ITEM);
         RESOURCE_LOCATIONS = builder.build();
     }
 

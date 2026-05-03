@@ -1,8 +1,8 @@
 package fuzs.sneakycurses.init;
 
 import com.mojang.serialization.MapCodec;
-import fuzs.puzzleslib.api.init.v3.registry.RegistryManager;
-import fuzs.puzzleslib.api.init.v3.tags.TagFactory;
+import fuzs.puzzleslib.common.api.init.v3.registry.RegistryManager;
+import fuzs.puzzleslib.common.api.init.v3.tags.TagFactory;
 import fuzs.sneakycurses.SneakyCurses;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentType;

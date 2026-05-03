@@ -1,10 +1,10 @@
 package fuzs.sneakycurses.client.handler;
 
-import fuzs.puzzleslib.api.client.renderer.v1.RenderStateExtraData;
-import fuzs.puzzleslib.api.event.v1.core.EventResult;
-import fuzs.puzzleslib.api.network.v4.MessageSender;
+import fuzs.puzzleslib.common.api.client.renderer.v1.RenderStateExtraData;
+import fuzs.puzzleslib.common.api.event.v1.core.EventResult;
+import fuzs.puzzleslib.common.api.network.v4.MessageSender;
 import fuzs.sneakycurses.SneakyCurses;
-import fuzs.sneakycurses.client.renderer.entity.CustomItemRenderer;
+import fuzs.sneakycurses.client.renderer.feature.CustomItemFeatureRenderer;
 import fuzs.sneakycurses.network.client.ServerboundRequestTridentItemMessage;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
@@ -28,12 +28,12 @@ public class TridentGlintHandler {
         return EventResult.PASS;
     }
 
-    public static void onExtractRenderState(Entity entity, EntityRenderState entityRenderState, float partialTick) {
+    public static void onExtractEntityRenderState(Entity entity, EntityRenderState entityRenderState, float partialTick) {
         if (entity instanceof ThrownTrident thrownTrident && entityRenderState instanceof ThrownTridentRenderState) {
             // vanilla doesn't sync the stack to clients, we need to take care of that ourselves
             RenderStateExtraData.set(entityRenderState,
                     IS_TRIDENT_CURSED_KEY,
-                    Optional.of(CustomItemRenderer.isItemStackCursed(thrownTrident.getPickupItemStackOrigin())));
+                    Optional.of(CustomItemFeatureRenderer.isItemStackCursed(thrownTrident.getPickupItemStackOrigin())));
         }
     }
 }

@@ -8,6 +8,14 @@ dependencies {
 
 multiloader {
     mixins {
-        clientMixin("EquipmentLayerRendererMixin", "FoilTypeMixin", "ItemRendererMixin", "LevelRendererMixin", "ModelFeatureRendererMixin", "ModelWrapperMixin", "ThrownTridentRendererMixin")
+        clientMixin(
+            "EquipmentLayerRendererMixin",
+            "FoilTypeMixin",
+            "ItemFeatureRendererMixin",
+            "ModelFeatureRendererMixin",
+            "ModelWrapperMixin",
+            "ShieldSpecialRendererMixin",
+            "ThrownTridentRendererMixin"
+        )
     }
 }

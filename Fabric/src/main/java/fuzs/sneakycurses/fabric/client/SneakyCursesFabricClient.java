@@ -1,6 +1,6 @@
 package fuzs.sneakycurses.fabric.client;
 
-import fuzs.puzzleslib.api.client.core.v1.ClientModConstructor;
+import fuzs.puzzleslib.common.api.client.core.v1.ClientModConstructor;
 import fuzs.sneakycurses.SneakyCurses;
 import fuzs.sneakycurses.client.SneakyCursesClient;
 import net.fabricmc.api.ClientModInitializer;

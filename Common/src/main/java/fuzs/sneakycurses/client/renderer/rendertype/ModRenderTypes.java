@@ -2,8 +2,10 @@ package fuzs.sneakycurses.client.renderer.rendertype;
 
 import com.google.common.collect.ImmutableMap;
 import com.mojang.blaze3d.pipeline.BlendFunction;
+import com.mojang.blaze3d.pipeline.ColorTargetState;
+import com.mojang.blaze3d.pipeline.DepthStencilState;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
-import com.mojang.blaze3d.platform.DepthTestFunction;
+import com.mojang.blaze3d.platform.CompareOp;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import fuzs.sneakycurses.SneakyCurses;
@@ -31,11 +33,10 @@ public final class ModRenderTypes {
             .withVertexShader(SneakyCurses.id("core/glint"))
             .withFragmentShader(SneakyCurses.id("core/glint"))
             .withSampler("Sampler0")
-            .withDepthWrite(false)
             .withCull(false)
-            .withDepthTestFunction(DepthTestFunction.EQUAL_DEPTH_TEST)
-            .withBlend(BlendFunction.GLINT)
+            .withColorTargetState(new ColorTargetState(BlendFunction.GLINT))
             .withVertexFormat(DefaultVertexFormat.POSITION_TEX_COLOR, VertexFormat.Mode.QUADS)
+            .withDepthStencilState(new DepthStencilState(CompareOp.EQUAL, false))
             .build();
     /**
      * We use the item glint texture as it looks much better.

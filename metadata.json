@@ -1,9 +1,10 @@
 {
+    "minecraft": "26.1.2",
     "mod": {
         "id": "sneakycurses",
         "group": "fuzs.sneakycurses",
         "name": "Sneaky Curses",
-        "version": "21.11.0",
+        "version": "26.1.0",
         "authors": [
             "Fuzs"
         ],
@@ -36,13 +37,13 @@
     ],
     "links": [
         {
-            "name": "github",
-            "slug": "sneakycurses"
-        },
-        {
             "name": "curseforge",
             "slug": "sneaky-curses",
             "id": "322733"
+        },
+        {
+            "name": "github",
+            "slug": "sneaky-curses"
         },
         {
             "name": "modrinth",

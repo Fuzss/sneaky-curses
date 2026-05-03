@@ -2,7 +2,7 @@ package fuzs.sneakycurses.mixin.client;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import fuzs.sneakycurses.client.renderer.entity.CustomItemRenderer;
+import fuzs.sneakycurses.client.renderer.feature.CustomItemFeatureRenderer;
 import fuzs.sneakycurses.client.renderer.rendertype.ModRenderTypes;
 import net.minecraft.client.renderer.entity.layers.EquipmentLayerRenderer;
 import net.minecraft.client.renderer.rendertype.RenderType;
@@ -17,7 +17,7 @@ abstract class EquipmentLayerRendererMixin {
                            at = @At(value = "INVOKE",
                                     target = "Lnet/minecraft/client/renderer/rendertype/RenderTypes;armorEntityGlint()Lnet/minecraft/client/renderer/rendertype/RenderType;"))
     public RenderType renderLayers(RenderType renderType, @Local(argsOnly = true) ItemStack itemStack) {
-        return CustomItemRenderer.isItemStackCursed(itemStack) ?
+        return CustomItemFeatureRenderer.isItemStackCursed(itemStack) ?
                 ModRenderTypes.GLINT_RENDER_TYPES.getOrDefault(renderType, renderType) : renderType;
     }
 }

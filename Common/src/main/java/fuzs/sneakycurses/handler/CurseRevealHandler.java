@@ -1,13 +1,15 @@
 package fuzs.sneakycurses.handler;
 
-import fuzs.puzzleslib.api.event.v1.core.EventResult;
-import fuzs.puzzleslib.api.event.v1.data.MutableInt;
-import fuzs.puzzleslib.api.event.v1.data.MutableValue;
+import fuzs.puzzleslib.common.api.event.v1.core.EventResult;
+import fuzs.puzzleslib.common.api.event.v1.data.MutableInt;
+import fuzs.puzzleslib.common.api.event.v1.data.MutableValue;
 import fuzs.sneakycurses.SneakyCurses;
 import fuzs.sneakycurses.config.ServerConfig;
 import fuzs.sneakycurses.init.ModRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -21,6 +23,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import org.jspecify.annotations.Nullable;
 
 public class CurseRevealHandler {
@@ -47,8 +50,8 @@ public class CurseRevealHandler {
             if (!(entity instanceof Player player) || !player.getAbilities().invulnerable) {
                 for (EquipmentSlot equipmentSlot : EquipmentSlot.values()) {
                     ItemStack itemStack = livingEntity.getItemBySlot(equipmentSlot);
-                    if (livingEntity.getEquipmentSlotForItem(itemStack) == equipmentSlot
-                            && anyEnchantIsCursed(itemStack) && !allCursesRevealed(itemStack)) {
+                    if (livingEntity.getEquipmentSlotForItem(itemStack) == equipmentSlot && isItemStackCursed(itemStack)
+                            && !allCursesRevealed(itemStack)) {
                         if (entity.getRandom().nextDouble()
                                 < SneakyCurses.CONFIG.get(ServerConfig.class).curseRevealChance) {
                             revealAllCurses(itemStack);
@@ -56,8 +59,8 @@ public class CurseRevealHandler {
                                     1.0F,
                                     entity.getRandom().nextFloat() * 0.1F + 0.9F);
                             if (entity instanceof Player player) {
-                                player.displayClientMessage(Component.translatable(KEY_ITEM_CURSES_REVEALED,
-                                        itemStack.getDisplayName()).withStyle(ChatFormatting.DARK_PURPLE), false);
+                                player.sendSystemMessage(Component.translatable(KEY_ITEM_CURSES_REVEALED,
+                                        itemStack.getDisplayName()).withStyle(ChatFormatting.DARK_PURPLE));
                             }
 
                             break;
@@ -69,7 +72,7 @@ public class CurseRevealHandler {
     }
 
     public static void revealAllCurses(ItemStack itemStack) {
-        if (anyEnchantIsCursed(itemStack)) {
+        if (isItemStackCursed(itemStack)) {
             itemStack.set(ModRegistry.REVEAL_CURSES_DATA_COMPONENT_TYPE.value(), Unit.INSTANCE);
         }
     }
@@ -78,9 +81,16 @@ public class CurseRevealHandler {
         return itemStack.has(ModRegistry.REVEAL_CURSES_DATA_COMPONENT_TYPE.value());
     }
 
-    public static boolean anyEnchantIsCursed(ItemStack itemStack) {
-        return !itemStack.isEmpty() && EnchantmentHelper.getEnchantmentsForCrafting(itemStack)
-                .keySet()
+    public static boolean isItemStackCursed(ItemStack itemStack) {
+        return !itemStack.isEmpty() && isItemStackCursed(EnchantmentHelper.getEnchantmentsForCrafting(itemStack));
+    }
+
+    public static boolean isItemStackCursed(DataComponentMap components) {
+        return isItemStackCursed(components.getOrDefault(DataComponents.ENCHANTMENTS, ItemEnchantments.EMPTY));
+    }
+
+    private static boolean isItemStackCursed(ItemEnchantments itemEnchantments) {
+        return itemEnchantments.keySet()
                 .stream()
                 .anyMatch((Holder<Enchantment> holder) -> holder.is(EnchantmentTags.CURSE));
     }
@@ -89,7 +99,7 @@ public class CurseRevealHandler {
         if (itemStack.is(Items.ENCHANTED_BOOK) && !SneakyCurses.CONFIG.get(ServerConfig.class).affectBooks) {
             return false;
         } else {
-            return anyEnchantIsCursed(itemStack);
+            return isItemStackCursed(itemStack);
         }
     }
 }

@@ -1,7 +1,7 @@
 package fuzs.sneakycurses.config;
 
-import fuzs.puzzleslib.api.config.v3.Config;
-import fuzs.puzzleslib.api.config.v3.ConfigCore;
+import fuzs.puzzleslib.common.api.config.v3.Config;
+import fuzs.puzzleslib.common.api.config.v3.ConfigCore;
 
 public class ServerConfig implements ConfigCore {
     @Config(name = "obfuscate_curses_on_tooltips", description = "Obfuscate curse enchantments with enchantment runes on item tooltips.")
