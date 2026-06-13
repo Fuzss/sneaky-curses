@@ -38,10 +38,9 @@ public class CurseRevealHandler {
             outputItemStack.accept(itemStack);
             repairMaterialCost.accept(1);
             enchantmentLevelCost.accept(SneakyCurses.CONFIG.get(ServerConfig.class).revealCursesCost);
-            return EventResult.ALLOW;
-        } else {
-            return EventResult.PASS;
         }
+
+        return EventResult.PASS;
     }
 
     public static void onEndEntityTick(Entity entity) {
