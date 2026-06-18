@@ -1,9 +1,8 @@
 package fuzs.sneakycurses.common.client;
 
 import fuzs.puzzleslib.common.api.client.core.v1.ClientModConstructor;
-import fuzs.puzzleslib.common.api.client.core.v1.context.RenderBuffersContext;
 import fuzs.puzzleslib.common.api.client.core.v1.context.RenderPipelinesContext;
-import fuzs.puzzleslib.common.api.client.event.v1.entity.ClientEntityLevelEvents;
+import fuzs.puzzleslib.common.api.client.event.v1.entity.ClientEntityEvents;
 import fuzs.puzzleslib.common.api.client.event.v1.gui.ItemTooltipCallback;
 import fuzs.puzzleslib.common.api.client.event.v1.gui.ScreenEvents;
 import fuzs.puzzleslib.common.api.client.event.v1.renderer.ExtractEntityRenderStateCallback;
@@ -26,13 +25,8 @@ public class SneakyCursesClient implements ClientModConstructor {
     private static void registerEventHandlers() {
         ItemTooltipCallback.EVENT.register(ItemTooltipHandler::onItemTooltip);
         ScreenEvents.afterInit(Screen.class).register(ItemTooltipHandler::onAfterInit);
-        ClientEntityLevelEvents.LOAD.register(TridentGlintHandler::onEntityLoad);
+        ClientEntityEvents.LOAD.register(TridentGlintHandler::onEntityLoad);
         ExtractEntityRenderStateCallback.EVENT.register(TridentGlintHandler::onExtractEntityRenderState);
-    }
-
-    @Override
-    public void onRegisterRenderBuffers(RenderBuffersContext context) {
-        ModRenderTypes.GLINT_RENDER_TYPES.values().forEach(context::registerRenderBuffer);
     }
 
     @Override

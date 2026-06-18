@@ -1,4 +1,3 @@
 classTweaker    v2  official
 accessible  field   net/minecraft/world/entity/projectile/arrow/AbstractArrow   pickupItemStack Lnet/minecraft/world/item/ItemStack;
-accessible  class   net/minecraft/client/renderer/OutlineBufferSource$EntityOutlineGenerator
-accessible  method  net/minecraft/client/renderer/OutlineBufferSource$EntityOutlineGenerator    <init>  (Lcom/mojang/blaze3d/vertex/VertexConsumer;I)V
+accessible  method  net/minecraft/client/renderer/feature/ItemFeatureRenderer   useTransparentGlint (Lnet/minecraft/client/renderer/rendertype/RenderType;)Z

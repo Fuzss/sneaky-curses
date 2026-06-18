@@ -8,11 +8,11 @@ import fuzs.sneakycurses.common.client.renderer.rendertype.ModRenderTypes;
 import fuzs.sneakycurses.common.config.ClientConfig;
 import fuzs.sneakycurses.common.config.ServerConfig;
 import fuzs.sneakycurses.common.handler.CurseRevealHandler;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.OutlineBufferSource;
+import fuzs.sneakycurses.common.services.ClientAbstractions;
 import net.minecraft.client.renderer.feature.ItemFeatureRenderer;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.Identifier;
@@ -71,10 +71,13 @@ public class CustomItemFeatureRenderer {
     }
 
     /**
-     * @see ItemFeatureRenderer#getFoilBuffer(MultiBufferSource, RenderType, PoseStack.Pose)
+     * @see ItemFeatureRenderer#getFoilBuffer(RenderType, PoseStack.Pose)
      */
-    public static VertexConsumer getFoilBuffer(MultiBufferSource bufferSource, RenderType renderType, PoseStack.@Nullable Pose foilDecalPose) {
-        VertexConsumer foilBuffer = applyFoilBufferColor(bufferSource.getBuffer(getFoilRenderType(renderType, true)));
+    public static VertexConsumer getFoilBuffer(Function<RenderType, VertexConsumer> vertexBuilderGetter, RenderType renderType, PoseStack.@Nullable Pose foilDecalPose) {
+        RenderType foilRenderType = getFoilRenderType(renderType);
+        RenderType tintedFoilRenderType = ModRenderTypes.GLINT_RENDER_TYPES.getOrDefault(foilRenderType,
+                foilRenderType);
+        VertexConsumer foilBuffer = applyFoilBufferColor(vertexBuilderGetter.apply(tintedFoilRenderType));
         if (foilDecalPose != null) {
             return new SheetedDecalTextureGenerator(foilBuffer, foilDecalPose, 0.0078125F);
         } else {
@@ -83,18 +86,18 @@ public class CustomItemFeatureRenderer {
     }
 
     /**
-     * @see ItemFeatureRenderer#getFoilRenderType(RenderType, boolean)
+     * @see ItemFeatureRenderer#getFoilBuffer(RenderType, PoseStack.Pose)
      */
-    private static RenderType getFoilRenderType(RenderType baseRenderType, boolean sheeted) {
-        RenderType foilRenderType = ItemFeatureRenderer.getFoilRenderType(baseRenderType, sheeted);
-        return ModRenderTypes.GLINT_RENDER_TYPES.getOrDefault(foilRenderType, foilRenderType);
+    public static RenderType getFoilRenderType(RenderType baseRenderType) {
+        return ItemFeatureRenderer.useTransparentGlint(baseRenderType) ? RenderTypes.glintTranslucent() :
+                RenderTypes.glint();
     }
 
     /**
-     * @see OutlineBufferSource
+     * Copied from {@code OutlineBufferSource.EntityOutlineGenerator} on Minecraft 26.1.
      */
     public static VertexConsumer applyFoilBufferColor(VertexConsumer vertexConsumer) {
-        return new OutlineBufferSource.EntityOutlineGenerator(vertexConsumer,
+        return ClientAbstractions.INSTANCE.getEntityOutlineGenerator(vertexConsumer,
                 ARGB.opaque(SneakyCurses.CONFIG.get(ClientConfig.class).cursedGlintColor.getTextureDiffuseColor()));
     }
 }

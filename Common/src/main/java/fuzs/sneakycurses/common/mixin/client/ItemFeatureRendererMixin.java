@@ -1,17 +1,14 @@
 package fuzs.sneakycurses.common.mixin.client;
 
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import fuzs.sneakycurses.common.client.renderer.feature.CustomItemFeatureRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.OutlineBufferSource;
-import net.minecraft.client.renderer.SubmitNodeStorage;
 import net.minecraft.client.renderer.feature.ItemFeatureRenderer;
+import net.minecraft.client.renderer.feature.RenderTypeFeatureRenderer;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
-import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.resources.model.geometry.BakedQuad;
 import net.minecraft.world.item.ItemDisplayContext;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -19,10 +16,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(ItemFeatureRenderer.class)
-abstract class ItemFeatureRendererMixin {
+abstract class ItemFeatureRendererMixin extends RenderTypeFeatureRenderer<ItemFeatureRenderer.Submit> {
 
-    @ModifyVariable(method = "renderItem", at = @At("STORE"), ordinal = 1)
-    private PoseStack.Pose renderItem(PoseStack.Pose foilDecalPose, MultiBufferSource.BufferSource bufferSource, OutlineBufferSource outlineBufferSource, SubmitNodeStorage.ItemSubmit submit) {
+    @ModifyVariable(method = "prepareFoilSubmit", at = @At("STORE"))
+    private PoseStack.Pose prepareFoilSubmit(PoseStack.Pose foilDecalPose, ItemFeatureRenderer.Submit submit) {
         // Extend this case to also cover our SPECIAL_CURSE foil type.
         ItemStackRenderState.FoilType foilType = submit.foilType();
         if (foilType == CustomItemFeatureRenderer.SPECIAL_CURSE_FOIL_TYPE) {
@@ -38,15 +35,16 @@ abstract class ItemFeatureRendererMixin {
         throw new UnsupportedOperationException();
     }
 
-    @WrapOperation(method = "renderItem",
-                   at = @At(value = "INVOKE",
-                            target = "Lnet/minecraft/client/renderer/feature/ItemFeatureRenderer;getFoilBuffer(Lnet/minecraft/client/renderer/MultiBufferSource;Lnet/minecraft/client/renderer/rendertype/RenderType;Lcom/mojang/blaze3d/vertex/PoseStack$Pose;)Lcom/mojang/blaze3d/vertex/VertexConsumer;"))
-    private static VertexConsumer renderItem(MultiBufferSource bufferSource, RenderType renderType, PoseStack.Pose foilDecalPose, Operation<VertexConsumer> operation, @Local(
-            argsOnly = true) SubmitNodeStorage.ItemSubmit submit) {
+    @ModifyExpressionValue(method = "prepareFoilSubmit",
+                           at = @At(value = "INVOKE",
+                                    target = "Lnet/minecraft/client/renderer/feature/ItemFeatureRenderer;getFoilBuffer(Lnet/minecraft/client/renderer/rendertype/RenderType;Lcom/mojang/blaze3d/vertex/PoseStack$Pose;)Lcom/mojang/blaze3d/vertex/VertexConsumer;"))
+    private VertexConsumer prepareFoilSubmit(VertexConsumer foilBuffer, ItemFeatureRenderer.Submit submit, @Local PoseStack.Pose foilDecalPose, @Local BakedQuad quad) {
         if (CustomItemFeatureRenderer.isCurseFoilType(submit.foilType())) {
-            return CustomItemFeatureRenderer.getFoilBuffer(bufferSource, renderType, foilDecalPose);
+            return CustomItemFeatureRenderer.getFoilBuffer(this::getVertexBuilder,
+                    quad.materialInfo().itemRenderType(),
+                    foilDecalPose);
         } else {
-            return operation.call(bufferSource, renderType, foilDecalPose);
+            return foilBuffer;
         }
     }
 }

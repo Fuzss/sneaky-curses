@@ -111,7 +111,7 @@ public class ItemTooltipHandler {
             }
 
             // don't show in anvil output slot, since it would reveal curses without actually having to apply the operation
-            if (Minecraft.getInstance().screen instanceof AnvilScreen screen) {
+            if (Minecraft.getInstance().gui.screen() instanceof AnvilScreen screen) {
                 Slot hoveredSlot = screen.hoveredSlot;
                 if (hoveredSlot != null && screen.getMenu().getResultSlot() == hoveredSlot.index
                         && hoveredSlot.getItem() == itemStack) {

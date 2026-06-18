@@ -1,15 +1,16 @@
 package fuzs.sneakycurses.common.client.renderer.rendertype;
 
 import com.google.common.collect.ImmutableMap;
+import com.mojang.blaze3d.PrimitiveTopology;
 import com.mojang.blaze3d.pipeline.BlendFunction;
 import com.mojang.blaze3d.pipeline.ColorTargetState;
 import com.mojang.blaze3d.pipeline.DepthStencilState;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.platform.CompareOp;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.VertexFormat;
 import fuzs.sneakycurses.common.SneakyCurses;
 import fuzs.sneakycurses.common.client.packs.TransformingPackResources;
+import net.minecraft.client.renderer.BindGroupLayouts;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.rendertype.*;
 
@@ -26,16 +27,17 @@ public final class ModRenderTypes {
     /**
      * @see RenderPipelines#GLINT
      */
-    public static final RenderPipeline GLINT_RENDER_PIPELINE = RenderPipeline.builder(RenderPipelines.MATRICES_PROJECTION_SNIPPET,
-                    RenderPipelines.FOG_SNIPPET,
-                    RenderPipelines.GLOBALS_SNIPPET)
+    public static final RenderPipeline GLINT_RENDER_PIPELINE = RenderPipeline.builder(RenderPipelines.GLOBALS_SNIPPET)
+            .withBindGroupLayout(BindGroupLayouts.MATRICES_PROJECTION)
+            .withBindGroupLayout(BindGroupLayouts.FOG)
             .withLocation(SneakyCurses.id("pipeline/glint"))
             .withVertexShader(SneakyCurses.id("core/glint"))
             .withFragmentShader(SneakyCurses.id("core/glint"))
-            .withSampler("Sampler0")
+            .withBindGroupLayout(BindGroupLayouts.SAMPLER0)
             .withCull(false)
             .withColorTargetState(new ColorTargetState(BlendFunction.GLINT))
-            .withVertexFormat(DefaultVertexFormat.POSITION_TEX_COLOR, VertexFormat.Mode.QUADS)
+            .withVertexBinding(0, DefaultVertexFormat.POSITION_TEX_COLOR)
+            .withPrimitiveTopology(PrimitiveTopology.QUADS)
             .withDepthStencilState(new DepthStencilState(CompareOp.EQUAL, false))
             .build();
     /**

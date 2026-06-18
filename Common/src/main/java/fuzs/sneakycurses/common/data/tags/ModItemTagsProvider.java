@@ -5,8 +5,8 @@ import fuzs.puzzleslib.common.api.data.v2.tags.AbstractTagProvider;
 import fuzs.sneakycurses.common.init.ModRegistry;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.references.ItemIds;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
 
 public class ModItemTagsProvider extends AbstractTagProvider<Item> {
 
@@ -16,6 +16,6 @@ public class ModItemTagsProvider extends AbstractTagProvider<Item> {
 
     @Override
     public void addTags(HolderLookup.Provider provider) {
-        this.tag(ModRegistry.REVEALS_CURSES_ITEM_TAG).add(Items.AMETHYST_SHARD);
+        this.tag(ModRegistry.REVEALS_CURSES_ITEM_TAG).add(ItemIds.AMETHYST_SHARD);
     }
 }
