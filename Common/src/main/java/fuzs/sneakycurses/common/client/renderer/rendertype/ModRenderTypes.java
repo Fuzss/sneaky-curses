@@ -8,6 +8,7 @@ import com.mojang.blaze3d.pipeline.DepthStencilState;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.platform.CompareOp;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import fuzs.sneakycurses.common.SneakyCurses;
 import fuzs.sneakycurses.common.client.packs.TransformingPackResources;
 import net.minecraft.client.renderer.BindGroupLayouts;
@@ -21,7 +22,7 @@ import java.util.Map;
  * <p>
  * The render types use a dynamically generated copy of the glint textures that is converted to grayscale and brightened
  * to support dying via a custom vertex consumer implementation at
- * {@link net.minecraft.client.renderer.OutlineBufferSource.EntityOutlineGenerator}.
+ * {@link fuzs.sneakycurses.common.services.ClientAbstractions#getEntityOutlineGenerator(VertexConsumer, int)}.
  */
 public final class ModRenderTypes {
     /**
