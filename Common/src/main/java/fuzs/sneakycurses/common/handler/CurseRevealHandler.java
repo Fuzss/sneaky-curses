@@ -13,6 +13,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.util.Unit;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -48,7 +49,7 @@ public class CurseRevealHandler {
             if (!(entity instanceof Player player) || !player.getAbilities().invulnerable) {
                 for (EquipmentSlot equipmentSlot : EquipmentSlot.values()) {
                     ItemStack itemStack = livingEntity.getItemBySlot(equipmentSlot);
-                    if (livingEntity.getEquipmentSlotForItem(itemStack) == equipmentSlot && isItemStackCursed(itemStack)
+                    if (livingEntity.getEquipmentSlotForItem(itemStack) == equipmentSlot && isItemStackCursed(itemStack, false)
                             && !allCursesRevealed(itemStack)) {
                         if (entity.getRandom().nextDouble()
                                 < SneakyCurses.CONFIG.get(ServerConfig.class).curseRevealChance) {
@@ -70,7 +71,7 @@ public class CurseRevealHandler {
     }
 
     public static void revealAllCurses(ItemStack itemStack) {
-        if (isItemStackCursed(itemStack)) {
+        if (isItemStackCursed(itemStack, false)) {
             itemStack.set(ModRegistry.REVEAL_CURSES_DATA_COMPONENT_TYPE.value(), Unit.INSTANCE);
         }
     }
@@ -79,25 +80,28 @@ public class CurseRevealHandler {
         return itemStack.has(ModRegistry.REVEAL_CURSES_DATA_COMPONENT_TYPE.value());
     }
 
-    public static boolean isItemStackCursed(ItemStack itemStack) {
-        return !itemStack.isEmpty() && isItemStackCursed(EnchantmentHelper.getEnchantmentsForCrafting(itemStack));
+    public static boolean isItemStackCursed(ItemStack itemStack, boolean forGlint) {
+        return !itemStack.isEmpty() && isItemStackCursed(EnchantmentHelper.getEnchantmentsForCrafting(itemStack),
+                forGlint);
     }
 
-    public static boolean isItemStackCursed(DataComponentMap components) {
-        return isItemStackCursed(components.getOrDefault(DataComponents.ENCHANTMENTS, ItemEnchantments.EMPTY));
+    public static boolean isItemStackCursed(DataComponentMap components, boolean forGlint) {
+        return isItemStackCursed(components.getOrDefault(DataComponents.ENCHANTMENTS, ItemEnchantments.EMPTY),
+                forGlint);
     }
 
-    private static boolean isItemStackCursed(ItemEnchantments itemEnchantments) {
+    private static boolean isItemStackCursed(ItemEnchantments itemEnchantments, boolean forGlint) {
         return itemEnchantments.keySet()
                 .stream()
-                .anyMatch((Holder<Enchantment> holder) -> holder.is(ModRegistry.OBFUSCATED_CURSE_ENCHANTMENT_TAG));
+                .anyMatch((Holder<Enchantment> holder) -> holder.is(
+                        forGlint ? EnchantmentTags.CURSE : ModRegistry.OBFUSCATED_CURSE_ENCHANTMENT_TAG));
     }
 
     public static boolean isAffected(ItemStack itemStack) {
         if (itemStack.is(Items.ENCHANTED_BOOK) && !SneakyCurses.CONFIG.get(ServerConfig.class).affectBooks) {
             return false;
         } else {
-            return isItemStackCursed(itemStack);
+            return isItemStackCursed(itemStack, false);
         }
     }
 }

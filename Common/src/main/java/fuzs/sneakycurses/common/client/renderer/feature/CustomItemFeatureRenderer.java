@@ -47,7 +47,7 @@ public class CustomItemFeatureRenderer {
                 ServerConfig.class).cursedItemGlint) {
             return false;
         } else {
-            return CurseRevealHandler.isItemStackCursed(components);
+            return CurseRevealHandler.isItemStackCursed(components, true);
         }
     }
 
@@ -66,7 +66,7 @@ public class CustomItemFeatureRenderer {
                 ServerConfig.class).cursedItemGlint) {
             return false;
         } else {
-            return CurseRevealHandler.isItemStackCursed(itemStack);
+            return CurseRevealHandler.isItemStackCursed(itemStack, true);
         }
     }
 
