@@ -1,0 +1,25 @@
+{
+  "fabric:remove": [
+    {
+      "id": "betternether:obsidian_breaker",
+      "required": false
+    },
+    {
+      "id": "betternether:ruby_fire",
+      "required": false
+    }
+  ],
+  "remove": [
+    {
+      "id": "betternether:obsidian_breaker",
+      "required": false
+    },
+    {
+      "id": "betternether:ruby_fire",
+      "required": false
+    }
+  ],
+  "values": [
+    "#minecraft:curse"
+  ]
+}
