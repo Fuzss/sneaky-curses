@@ -11,6 +11,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Unit;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.enchantment.Enchantment;
 
 public class ModRegistry {
     static final RegistryManager REGISTRIES = RegistryManager.from(SneakyCurses.MOD_ID);
@@ -24,6 +25,8 @@ public class ModRegistry {
 
     static final TagFactory TAGS = TagFactory.make(SneakyCurses.MOD_ID);
     public static final TagKey<Item> REVEALS_CURSES_ITEM_TAG = TAGS.registerItemTag("reveals_curses");
+    public static final TagKey<Enchantment> OBFUSCATED_CURSE_ENCHANTMENT_TAG = TAGS.registerEnchantmentTag(
+            "obfuscated_curse");
 
     public static void bootstrap() {
         // NO-OP
