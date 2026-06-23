@@ -13,7 +13,6 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.util.Unit;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -91,7 +90,7 @@ public class CurseRevealHandler {
     private static boolean isItemStackCursed(ItemEnchantments itemEnchantments) {
         return itemEnchantments.keySet()
                 .stream()
-                .anyMatch((Holder<Enchantment> holder) -> holder.is(EnchantmentTags.CURSE));
+                .anyMatch((Holder<Enchantment> holder) -> holder.is(ModRegistry.OBFUSCATED_CURSE_ENCHANTMENT_TAG));
     }
 
     public static boolean isAffected(ItemStack itemStack) {

@@ -6,6 +6,7 @@ import fuzs.puzzleslib.common.api.util.v1.ComponentHelper;
 import fuzs.sneakycurses.common.SneakyCurses;
 import fuzs.sneakycurses.common.config.ServerConfig;
 import fuzs.sneakycurses.common.handler.CurseRevealHandler;
+import fuzs.sneakycurses.common.init.ModRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -21,7 +22,6 @@ import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
@@ -81,7 +81,7 @@ public class ItemTooltipHandler {
                     enchantment = enchantments.get(ResourceKey.create(Registries.ENCHANTMENT, identifier)).orElse(null);
                 }
 
-                if (enchantment != null && enchantment.is(EnchantmentTags.CURSE)) {
+                if (enchantment != null && enchantment.is(ModRegistry.OBFUSCATED_CURSE_ENCHANTMENT_TAG)) {
                     if (enchantmentKey.length == 3) {
                         int enchantmentId = ENCHANTMENT_IDS.computeIfAbsent(enchantment.value(), $ -> RANDOM.nextInt());
                         initSeed(currentScreenSeed + enchantmentId);
