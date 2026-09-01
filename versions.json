@@ -6,11 +6,17 @@
     "26.1.x": "maintained",
     "26.2.x": "primary"
   },
-  "properties": {
-    "distributions.curseforge.id": "322733",
-    "distributions.curseforge.slug": "sneaky-curses",
-    "distributions.github.slug": "sneaky-curses",
-    "distributions.modrinth.id": "TivKCwTx",
-    "distributions.modrinth.slug": "sneaky-curses"
+  "distributions": {
+    "curseforge": {
+      "id": "322733",
+      "slug": "sneaky-curses"
+    },
+    "github": {
+      "slug": "sneaky-curses"
+    },
+    "modrinth": {
+      "id": "TivKCwTx",
+      "slug": "sneaky-curses"
+    }
   }
 }
